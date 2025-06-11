@@ -4,7 +4,8 @@ window.onload = function() {
 
     // 🖼️ ここに `images` フォルダに入れた画像ファイル名を追加してください
     const images = [
-        'images/image1.png', // 例：画像が1枚だけの場合
+        'images/image1.png',
+        'images/image2.png',
     ];
 
     // --- 設定項目 ---
