@@ -31,6 +31,9 @@ window.onload = function() {
 
     // シャッフルと結果表示のコア処理
     function executeShuffleSequence() {
+        // 再度シャッフルが始まる際に、決定時の背景色を元に戻す
+        document.body.classList.remove('image-decided-effect');
+
         // 画像が1枚以下の場合は、シャッフル処理をせずにエラーを回避する
         if (images.length <= 1) {
             if (images.length === 1) {
@@ -38,12 +41,15 @@ window.onload = function() {
             }
             actionButton.textContent = 'もう1度引く';
             actionButton.disabled = (images.length === 0);
+            // 画像が1枚以下の場合でも、決定なので背景色を変更する
+            if (images.length > 0) { // 画像が1枚でもある場合
+                 document.body.classList.add('image-decided-effect');
+            }
             return;
         }
 
-        // actionButton.style.display = 'none'; // シャッフル中はボタンを隠す ← この行をコメントアウトまたは削除
-        actionButton.disabled = true; // ボタンを無効化
-        actionButton.textContent = 'シャッフル中...'; // ボタンのテキストを変更
+        actionButton.disabled = true;
+        actionButton.textContent = 'シャッフル中...';
 
         startShuffle();
         setTimeout(stopShuffle, shuffleDuration);
@@ -76,14 +82,10 @@ window.onload = function() {
         const finalImageIndex = Math.floor(Math.random() * images.length);
         randomImage.src = images[finalImageIndex];
 
-        // 画像決定エフェクト
+        // 画像決定エフェクト (クラスを追加するのみで、削除しない)
         document.body.classList.add('image-decided-effect');
-        setTimeout(() => {
-            document.body.classList.remove('image-decided-effect');
-        }, 500);
 
         actionButton.textContent = 'もう1度引く';
-        // actionButton.style.display = 'block'; // 表示状態は変えないのでこの行は不要
-        actionButton.disabled = false;     // ボタンを有効化
+        actionButton.disabled = false;
     }
 };
