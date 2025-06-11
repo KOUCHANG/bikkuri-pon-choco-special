@@ -15,7 +15,7 @@ window.onload = function() {
     // ✨ パッケージ画像のパスを指定 (例: imagesフォルダに package.png を配置)
     const packageImage = 'images/package.png';
     // ✨ パッケージ画像の表示時間 (ミリ秒単位、例: 2000 = 2秒)
-    const packageDisplayDuration = 2000;
+    // const packageDisplayDuration = 2000; // クリックで開始するため不要に
 
     // --- 設定項目 ---
     const shuffleDuration = 3000; // シャッフルアニメーションの時間 (3秒)
@@ -25,8 +25,10 @@ window.onload = function() {
     // ===== 初期表示: パッケージ画像 =====
     randomImage.src = packageImage;
 
-    // ===== パッケージ表示後、シャッフル処理を開始 =====
-    setTimeout(() => {
+    // ===== 画像クリック/タップでシャッフル処理を開始 =====
+    randomImage.addEventListener('click', startShuffleOnClick, { once: true }); // 一度だけ実行されるようにする
+
+    function startShuffleOnClick() {
         // 画像が1枚以下の場合は、シャッフル処理をせずにエラーを回避する
         if (images.length <= 1) {
             if (images.length === 1) {
@@ -68,5 +70,5 @@ window.onload = function() {
         // 実行！
         startShuffle(); // まずシャッフルを開始
         setTimeout(stopShuffle, shuffleDuration); // 設定した時間が経過したらシャッフルを停止
-    }, packageDisplayDuration); // パッケージ画像の表示時間後にシャッフル処理を開始
+    }
 };
