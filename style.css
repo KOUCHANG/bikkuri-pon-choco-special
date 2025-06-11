@@ -106,6 +106,7 @@ p {
 
 /* 画像決定時の背景エフェクト用クラス */
 body.image-decided-effect {
-    background-color: #ffd700;
-    transition: background-color 0.3s ease-in-out;
+    /* background-color: #ffd700; */ /* ← 単色指定をコメントアウトまたは削除 */
+    background-image: radial-gradient(circle, #FFFACD, #FFC0CB); /* 淡い黄色(LemonChiffon)から淡いピンク(Pink)への放射状グラデーション */
+    transition: background-image 0.5s ease-in-out; /* グラデーションの変化を滑らかに */
 }
