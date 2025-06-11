@@ -36,14 +36,14 @@ window.onload = function() {
             if (images.length === 1) {
                 randomImage.src = images[0];
             }
-            actionButton.textContent = 'もう1度引く'; // 画像が1枚でもボタンは「もう1度引く」
-            actionButton.style.display = 'block';
-            actionButton.disabled = (images.length === 0); // 画像が0枚なら無効
+            actionButton.textContent = 'もう1度引く';
+            actionButton.disabled = (images.length === 0);
             return;
         }
 
-        actionButton.style.display = 'none'; // シャッフル中はボタンを隠す
-        // または actionButton.disabled = true; actionButton.textContent = 'シャッフル中...';
+        // actionButton.style.display = 'none'; // シャッフル中はボタンを隠す ← この行をコメントアウトまたは削除
+        actionButton.disabled = true; // ボタンを無効化
+        actionButton.textContent = 'シャッフル中...'; // ボタンのテキストを変更
 
         startShuffle();
         setTimeout(stopShuffle, shuffleDuration);
@@ -83,7 +83,7 @@ window.onload = function() {
         }, 500);
 
         actionButton.textContent = 'もう1度引く';
-        actionButton.style.display = 'block'; // シャッフル後にボタンを表示
+        // actionButton.style.display = 'block'; // 表示状態は変えないのでこの行は不要
         actionButton.disabled = false;     // ボタンを有効化
     }
 };
