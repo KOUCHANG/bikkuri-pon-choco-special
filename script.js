@@ -4,9 +4,7 @@ window.onload = function() {
 
     // 🖼️ ここに `images` フォルダに入れた画像ファイル名を追加してください
     const images = [
-        'images/image1.jpg',
-        'images/image2.png',
-        'images/image3.gif',
+        'images/image1.png',
         // 例: 'images/my_cat.jpg',
         // 例: 'images/favorite_food.png',
     ];
