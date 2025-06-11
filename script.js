@@ -65,6 +65,12 @@ window.onload = function() {
             // 最終的に表示する画像をランダムに決定
             const finalImageIndex = Math.floor(Math.random() * images.length);
             randomImage.src = images[finalImageIndex];
+
+            // 画像決定エフェクト
+            document.body.classList.add('image-decided-effect');
+            setTimeout(() => {
+                document.body.classList.remove('image-decided-effect');
+            }, 500); // 0.5秒後にエフェクトを解除 (元の背景色に戻る)
         }
 
         // 実行！

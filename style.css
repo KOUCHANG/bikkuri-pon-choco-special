@@ -55,3 +55,9 @@ p {
         border-width: 3px;
     }
 }
+
+/* 画像決定時の背景エフェクト用クラス */
+body.image-decided-effect {
+    background-color: #ffd700; /* 明るい黄色（ゴールドっぽい色） */
+    transition: background-color 0.3s ease-in-out; /* 背景色の変化を滑らかに */
+}
