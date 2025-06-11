@@ -3,98 +3,104 @@ body {
     background-color: #f4f4f4;
     color: #333;
     margin: 0;
-    padding: 20px; /* bodyの基本的な余白 */
+    padding: 10px; /* 上下のパディングを少し減らす */
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-height: 100vh;
+    justify-content: center; /* コンテンツを垂直方向の中央に配置 */
+    height: 100vh; /* bodyの高さをビューポートの高さに固定 */
+    overflow: hidden; /* スクロールバーを強制的に非表示 */
     box-sizing: border-box;
 }
 
 h1 {
     color: #d9534f;
-    margin-bottom: 10px;
-    font-size: 2.5em;
+    margin-top: 0; /* 上マージンを調整 */
+    margin-bottom: 5px; /* 下マージンを減らす */
+    font-size: 2em; /* フォントサイズを少し小さく */
 }
 
 p {
-    font-size: 1.2em;
-    line-height: 1.6;
-    margin-bottom: 15px;
+    font-size: 1em; /* フォントサイズを少し小さく */
+    line-height: 1.4;
+    margin-top: 0;
+    margin-bottom: 10px; /* 下マージンを減らす */
+}
+
+#action-button {
+    /* position: absolute; スタイルをリセット */
+    /* top: 50%; */
+    /* left: 50%; */
+    /* transform: translate(-50%, -50%); */
+    display: block; /* ブロック要素として配置 */
+    margin: 0 auto 10px auto; /* 上0, 左右自動(中央), 下10pxのマージン */
+    padding: 10px 20px; /* パディングを調整 */
+    font-size: 1.1em;
+    font-weight: bold;
+    color: white;
+    background-color: #5cb85c; /* 通常のボタンスタイルに戻す例 */
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    min-width: 180px; /* ボタンの最小幅 */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+#action-button:hover {
+    background-color: #4cae4c;
+    /* transform: translate(-50%, -50%) scale(1.05); transformを削除 */
+}
+
+#action-button:disabled {
+    background-color: #cccccc;
+    color: #888888;
+    cursor: not-allowed;
+    box-shadow: none;
 }
 
 #image-container {
-    position: relative; /* 子要素の絶対配置の基準点とする */
-    margin-top: 20px;
-    margin-bottom: 20px;
-    border: 5px solid #ddd;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* position: relative; 不要であれば削除 */
+    margin-top: 0; /* 上マージンを削除または調整 */
+    margin-bottom: 0; /* 下マージンを削除または調整 */
+    border: 3px solid #ddd; /* 枠線を少し細く */
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     background-color: #fff;
-    padding: 10px;
-    max-width: 90%;
-    display: inline-block; /* 画像のサイズにコンテナが追従するように */
+    padding: 8px; /* パディングを少し減らす */
+    max-width: 80%; /* 最大幅を少し調整 */
+    display: inline-block;
 }
 
 #random-image {
     max-width: 100%;
-    height: auto;
     display: block;
     border-radius: 5px;
-    /* cursor: pointer; */ /* ← この行を削除 */
+    /* 画像の最大の高さをビューポートの高さに基づいて制限 */
+    /* h1, p, button, image-containerのpaddingやborderを考慮して調整 */
+    max-height: calc(100vh - 220px); /* 例: 全体の高さから他の要素の高さを引いた値 (要調整) */
+    object-fit: contain; /* アスペクト比を保ちつつコンテナに収める */
 }
 
-/* #retry-button のスタイル定義を削除 */
-
-#action-button {
-    position: absolute; /* 親要素(#image-container)に対して絶対配置 */
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%); /* 要素自身のサイズを考慮して中央へ */
-    padding: 12px 25px;
-    font-size: 1.2em;
-    font-weight: bold;
-    color: white;
-    background-color: rgba(0, 0, 0, 0.6); /* 半透明の黒背景 */
-    border: 2px solid white;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    z-index: 10; /* 画像より手前に表示 */
-    min-width: 150px; /* ボタンの最小幅 */
-    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-}
-
-#action-button:hover {
-    background-color: rgba(0, 0, 0, 0.8); /* ホバー時少し濃く */
-    transform: translate(-50%, -50%) scale(1.05); /* 少し拡大 */
-}
-
-#action-button:disabled {
-    background-color: rgba(128, 128, 128, 0.5); /* 無効時はグレーっぽく */
-    color: #dddddd;
-    cursor: not-allowed;
-    border-color: #aaaaaa;
-    box-shadow: none;
-}
-
-
-/* スマートフォン向けの調整 */
+/* スマートフォン向けの調整は、上記の調整で多くのケースをカバーできるか確認 */
 @media (max-width: 600px) {
     h1 {
-        font-size: 2em;
+        font-size: 1.8em;
     }
     p {
-        font-size: 1em;
-    }
-    #image-container {
-        border-width: 3px;
+        font-size: 0.9em;
     }
     #action-button {
-        padding: 10px 20px;
+        padding: 8px 15px;
         font-size: 1em;
-        min-width: 120px;
+        min-width: 150px;
+    }
+    #image-container {
+        padding: 5px;
+    }
+    #random-image {
+        max-height: calc(100vh - 200px); /* スマホ向けに再調整 (要調整) */
     }
 }
 
