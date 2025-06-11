@@ -1,34 +1,57 @@
 body {
+    font-family: 'Helvetica Neue', Arial, sans-serif; /* モダンなフォントファミリーを指定 */
+    background-color: #f4f4f4; /* 背景色を薄いグレーに */
+    color: #333; /* 基本の文字色を濃いグレーに */
+    margin: 0;
+    padding: 20px;
+    text-align: center; /* 全体を中央揃えに */
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    height: 100vh;
-    margin: 0;
-    font-family: 'Helvetica', 'Arial', sans-serif;
-    background-color: #f4f4f4;
-    text-align: center;
+    min-height: 100vh; /* 画面の高さいっぱいに表示 */
+    box-sizing: border-box;
 }
 
 h1 {
-    color: #333;
+    color: #d9534f; /* 見出しの色を少しアクセントのある赤系に */
+    margin-bottom: 10px;
+    font-size: 2.5em; /* 見出しのフォントサイズを調整 */
+}
+
+p {
+    font-size: 1.2em; /* 段落のフォントサイズを調整 */
+    line-height: 1.6; /* 行間を調整して読みやすく */
+    margin-bottom: 15px;
 }
 
 #image-container {
-    width: 350px;
-    height: 350px;
-    border: 8px solid #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #fff;
-    overflow: hidden; /* コンテナからはみ出した画像を隠す */
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: 5px solid #ddd; /* 画像コンテナに枠線を追加 */
+    border-radius: 10px; /* 画像コンテナの角を丸く */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 画像コンテナに影を追加 */
+    background-color: #fff; /* 画像コンテナの背景を白に */
+    padding: 10px; /* 画像コンテナ内の余白 */
+    max-width: 90%; /* 画像コンテナの最大幅を設定 */
 }
 
 #random-image {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: cover; /* 画像の比率を保ちつつコンテナを埋める */
+    max-width: 100%; /* 画像がコンテナを超えないように */
+    height: auto; /* 画像の縦横比を維持 */
+    display: block; /* 画像の下に余計なスペースができないように */
+    border-radius: 5px; /* 画像の角を少し丸く */
+    cursor: pointer; /* 画像にカーソルを合わせるとポインターに */
+}
+
+/* スマートフォン向けの調整 */
+@media (max-width: 600px) {
+    h1 {
+        font-size: 2em;
+    }
+    p {
+        font-size: 1em;
+    }
+    #image-container {
+        border-width: 3px;
+    }
 }
