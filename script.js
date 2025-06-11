@@ -1,24 +1,24 @@
 // ページが読み込まれたら実行
 window.onload = function() {
     const randomImage = document.getElementById('random-image');
-    const actionButton = document.getElementById('action-button'); // 新しいボタンを取得
+    const actionButton = document.getElementById('action-button');
 
-    // 🖼️ ここに `images` フォルダに入れた画像ファイル名を追加してください
+    // 🖼️ 画像のパスと重みを設定
     const images = [
-        'images/image1.png',
-        'images/image2.png',
-        'images/image3.png',
-        'images/image4.png',
-        'images/image5.png',
-        'images/image6.png',
-        'images/image7.png',
-        'images/image8.png',
-        'images/image9.png',
-        'images/image10.png',
-        'images/image11.png',
+        { src: 'images/pon.png',    weight: 5 },
+        { src: 'images/kinako.png', weight: 5 },
+        { src: 'images/misa.png',   weight: 5 },
+        { src: 'images/naruse.png', weight: 5 },
+        { src: 'images/hiyoko.png', weight: 50 },
+        { src: 'images/ripa.png',   weight: 5 },
+        { src: 'images/kou.png',    weight: 10 },
+        { src: 'images/nahe.png',   weight: 10 },
+        { src: 'images/seseri.png', weight: 3 },
+        { src: 'images/bravo.png',  weight: 5 },
+        { src: 'images/poni.png',   weight: 3 },
     ];
 
-    // ✨ パッケージ画像のパスを指定 (例: imagesフォルダに package.png を配置)
+    // ✨ パッケージ画像のパスを指定
     const packageImage = 'images/package.png';
 
     // --- 設定項目 ---
@@ -31,25 +31,40 @@ window.onload = function() {
     // ===== 初期表示: パッケージ画像とスタートボタン =====
     randomImage.src = packageImage;
     actionButton.textContent = 'スタート';
-    actionButton.style.display = 'block'; // 最初は表示
+    actionButton.style.display = 'block';
     actionButton.disabled = false;
+
+    // 重みを考慮してランダムな画像のインデックスを取得するヘルパー関数
+    function getWeightedRandomIndex(weightedImages) {
+        const totalWeight = weightedImages.reduce((sum, img) => sum + (img.weight || 0), 0);
+        if (totalWeight <= 0) return Math.floor(Math.random() * weightedImages.length); // 重みが無効な場合は通常のランダム
+
+        let randomNumber = Math.random() * totalWeight;
+        for (let i = 0; i < weightedImages.length; i++) {
+            if (randomNumber < (weightedImages[i].weight || 0)) {
+                return i;
+            }
+            randomNumber -= (weightedImages[i].weight || 0);
+        }
+        // フォールバック (通常は到達しないが、浮動小数点誤差などを考慮)
+        return weightedImages.length - 1;
+    }
 
     // シャッフルと結果表示のコア処理
     function executeShuffleSequence() {
-        // 再度シャッフルが始まる際に、決定時の背景色を元に戻す
         document.body.classList.remove('image-decided-effect');
 
-        // 画像が1枚以下の場合は、シャッフル処理をせずにエラーを回避する
-        if (images.length <= 1) {
-            if (images.length === 1) {
-                randomImage.src = images[0];
-            }
+        if (images.length === 0) { // 画像が0枚の場合
+            actionButton.textContent = '画像なし';
+            actionButton.disabled = true;
+            return;
+        }
+
+        if (images.length === 1) { // 画像が1枚だけの場合
+            randomImage.src = images[0].src; // .src を追加
             actionButton.textContent = 'もう1度引く';
-            actionButton.disabled = (images.length === 0);
-            // 画像が1枚以下の場合でも、決定なので背景色を変更する
-            if (images.length > 0) { // 画像が1枚でもある場合
-                 document.body.classList.add('image-decided-effect');
-            }
+            actionButton.disabled = false; // 1枚でも再度引けるようにする（結果は同じ）
+            document.body.classList.add('image-decided-effect');
             return;
         }
 
@@ -60,34 +75,33 @@ window.onload = function() {
         setTimeout(stopShuffle, shuffleDuration);
     }
 
-    // ===== ボタンクリックでシャッフル処理を開始 =====
     actionButton.addEventListener('click', () => {
         if (!actionButton.disabled) {
             executeShuffleSequence();
         }
     });
 
-    // シャッフルアニメーションを開始する関数
     function startShuffle() {
         let lastIndex = -1;
         shuffleTimer = setInterval(() => {
             let randomIndex;
+            // 前回と同じ画像が連続で表示されないようにする (重み考慮)
+            // images.length > 1 の条件は executeShuffleSequence で担保済み
             do {
-                randomIndex = Math.floor(Math.random() * images.length);
-            } while (randomIndex === lastIndex && images.length > 1);
-            randomImage.src = images[randomIndex];
+                randomIndex = getWeightedRandomIndex(images);
+            } while (randomIndex === lastIndex); // images.length > 1 は常に真
+
+            randomImage.src = images[randomIndex].src; // .src を追加
             lastIndex = randomIndex;
         }, shuffleInterval);
     }
 
-    // シャッフルを停止して最終的な画像を表示する関数
     function stopShuffle() {
         clearInterval(shuffleTimer);
 
-        const finalImageIndex = Math.floor(Math.random() * images.length);
-        randomImage.src = images[finalImageIndex];
+        const finalImageIndex = getWeightedRandomIndex(images);
+        randomImage.src = images[finalImageIndex].src; // .src を追加
 
-        // 画像決定エフェクト (クラスを追加するのみで、削除しない)
         document.body.classList.add('image-decided-effect');
 
         actionButton.textContent = 'もう1度引く';
