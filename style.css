@@ -43,6 +43,28 @@ p {
     cursor: pointer; /* 画像にカーソルを合わせるとポインターに */
 }
 
+#retry-button {
+    display: block; /* ボタンをブロック要素にして中央揃えしやすくする */
+    margin: 20px auto; /* 上下に20px、左右は自動で中央揃え */
+    padding: 10px 20px;
+    font-size: 1.1em;
+    color: white;
+    background-color: #5cb85c; /* ボタンの色を緑系に */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#retry-button:hover {
+    background-color: #4cae4c; /* ホバー時の色を少し濃く */
+}
+
+#retry-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
 /* スマートフォン向けの調整 */
 @media (max-width: 600px) {
     h1 {
