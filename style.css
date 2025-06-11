@@ -1,81 +1,84 @@
 body {
-    font-family: 'Helvetica Neue', Arial, sans-serif; /* モダンなフォントファミリーを指定 */
-    background-color: #f4f4f4; /* 背景色を薄いグレーに */
-    color: #333; /* 基本の文字色を濃いグレーに */
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
     margin: 0;
-    padding: 20px;
-    text-align: center; /* 全体を中央揃えに */
+    padding: 20px; /* bodyの基本的な余白 */
+    text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-height: 100vh; /* 画面の高さいっぱいに表示 */
+    min-height: 100vh;
     box-sizing: border-box;
-    /* ボタンが隠れないように、ボタンの高さ + bottomのオフセット + α の余白を確保 */
-    /* ボタンの高さ(padding含む)が約40px, bottomが15pxの場合、最低でも 40px + 15px + 少しの余白 = 60px～70px程度 */
-    padding-bottom: 70px; /* この値を調整してください */
 }
 
 h1 {
-    color: #d9534f; /* 見出しの色を少しアクセントのある赤系に */
+    color: #d9534f;
     margin-bottom: 10px;
-    font-size: 2.5em; /* 見出しのフォントサイズを調整 */
+    font-size: 2.5em;
 }
 
 p {
-    font-size: 1.2em; /* 段落のフォントサイズを調整 */
-    line-height: 1.6; /* 行間を調整して読みやすく */
+    font-size: 1.2em;
+    line-height: 1.6;
     margin-bottom: 15px;
 }
 
 #image-container {
+    position: relative; /* 子要素の絶対配置の基準点とする */
     margin-top: 20px;
     margin-bottom: 20px;
-    border: 5px solid #ddd; /* 画像コンテナに枠線を追加 */
-    border-radius: 10px; /* 画像コンテナの角を丸く */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 画像コンテナに影を追加 */
-    background-color: #fff; /* 画像コンテナの背景を白に */
-    padding: 10px; /* 画像コンテナ内の余白 */
-    max-width: 90%; /* 画像コンテナの最大幅を設定 */
+    border: 5px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    padding: 10px;
+    max-width: 90%;
+    display: inline-block; /* 画像のサイズにコンテナが追従するように */
 }
 
 #random-image {
-    max-width: 100%; /* 画像がコンテナを超えないように */
-    height: auto; /* 画像の縦横比を維持 */
-    display: block; /* 画像の下に余計なスペースができないように */
-    border-radius: 5px; /* 画像の角を少し丸く */
-    cursor: pointer; /* 画像にカーソルを合わせるとポインターに */
+    max-width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 5px;
+    /* cursor: pointer; */ /* ← この行を削除 */
 }
 
-#retry-button {
-    position: fixed;
-    bottom: 15px;    /* 画面下からの距離を少し調整 */
+/* #retry-button のスタイル定義を削除 */
+
+#action-button {
+    position: absolute; /* 親要素(#image-container)に対して絶対配置 */
+    top: 50%;
     left: 50%;
-    transform: translateX(-50%);
-    padding: 10px 20px; /* パディングを少し調整 */
-    font-size: 1em;     /* フォントサイズを少し調整 */
+    transform: translate(-50%, -50%); /* 要素自身のサイズを考慮して中央へ */
+    padding: 12px 25px;
+    font-size: 1.2em;
+    font-weight: bold;
     color: white;
-    background-color: #5cb85c; /* ボタンの色を緑系に */
-    border: none;
+    background-color: rgba(0, 0, 0, 0.6); /* 半透明の黒背景 */
+    border: 2px solid white;
     border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
-    z-index: 1000;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    /* ボタンの横幅がコンテンツ幅を超えないように念のため設定 */
-    max-width: calc(100% - 30px); /* 左右に15pxずつの余白を考慮 */
-    box-sizing: border-box; /* paddingとborderを幅計算に含める */
+    z-index: 10; /* 画像より手前に表示 */
+    min-width: 150px; /* ボタンの最小幅 */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
 }
 
-#retry-button:hover {
-    background-color: #4cae4c; /* ホバー時の色を少し濃く */
-    transform: translateX(-50%) translateY(-2px);
+#action-button:hover {
+    background-color: rgba(0, 0, 0, 0.8); /* ホバー時少し濃く */
+    transform: translate(-50%, -50%) scale(1.05); /* 少し拡大 */
 }
 
-#retry-button:disabled {
-    background-color: #cccccc;
+#action-button:disabled {
+    background-color: rgba(128, 128, 128, 0.5); /* 無効時はグレーっぽく */
+    color: #dddddd;
     cursor: not-allowed;
+    border-color: #aaaaaa;
     box-shadow: none;
 }
+
 
 /* スマートフォン向けの調整 */
 @media (max-width: 600px) {
@@ -88,10 +91,15 @@ p {
     #image-container {
         border-width: 3px;
     }
+    #action-button {
+        padding: 10px 20px;
+        font-size: 1em;
+        min-width: 120px;
+    }
 }
 
 /* 画像決定時の背景エフェクト用クラス */
 body.image-decided-effect {
-    background-color: #ffd700; /* 明るい黄色（ゴールドっぽい色） */
-    transition: background-color 0.3s ease-in-out; /* 背景色の変化を滑らかに */
+    background-color: #ffd700;
+    transition: background-color 0.3s ease-in-out;
 }
