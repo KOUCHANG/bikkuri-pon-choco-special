@@ -10,6 +10,9 @@ body {
     align-items: center;
     min-height: 100vh; /* 画面の高さいっぱいに表示 */
     box-sizing: border-box;
+    /* ボタンが隠れないように、ボタンの高さ + bottomのオフセット + α の余白を確保 */
+    /* ボタンの高さ(padding含む)が約40px, bottomが15pxの場合、最低でも 40px + 15px + 少しの余白 = 60px～70px程度 */
+    padding-bottom: 70px; /* この値を調整してください */
 }
 
 h1 {
@@ -44,25 +47,34 @@ p {
 }
 
 #retry-button {
-    display: block; /* ボタンをブロック要素にして中央揃えしやすくする */
-    margin: 20px auto; /* 上下に20px、左右は自動で中央揃え */
-    padding: 10px 20px;
-    font-size: 1.1em;
+    position: fixed;
+    bottom: 15px;    /* 画面下からの距離を少し調整 */
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 20px; /* パディングを少し調整 */
+    font-size: 1em;     /* フォントサイズを少し調整 */
     color: white;
     background-color: #5cb85c; /* ボタンの色を緑系に */
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    /* ボタンの横幅がコンテンツ幅を超えないように念のため設定 */
+    max-width: calc(100% - 30px); /* 左右に15pxずつの余白を考慮 */
+    box-sizing: border-box; /* paddingとborderを幅計算に含める */
 }
 
 #retry-button:hover {
     background-color: #4cae4c; /* ホバー時の色を少し濃く */
+    transform: translateX(-50%) translateY(-2px);
 }
 
 #retry-button:disabled {
     background-color: #cccccc;
     cursor: not-allowed;
+    box-shadow: none;
 }
 
 /* スマートフォン向けの調整 */
