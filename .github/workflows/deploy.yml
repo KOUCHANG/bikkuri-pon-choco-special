@@ -1,0 +1,37 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main # mainブランチへのpushをトリガーとする (適宜変更してください)
+  workflow_dispatch: # 手動実行も可能にする
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # peaceiris/actions-gh-pages がコミットするために必要
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v4
+
+      - name: Get current commit hash  SHA
+        id: vars
+        run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
+      - name: Replace commit hash in index.html 📝
+        run: |
+          # index.html 内の {{GIT_COMMIT_HASH}} を実際のコミットハッシュで置換
+          # sed コマンドを使用する例 (macOSのsedとGNU sedで挙動が異なる場合があるので注意)
+          # GNU sed を使うために -i'' のように空の拡張子を指定することがあります
+          sed -i "s|{{GIT_COMMIT_HASH}}|${{ steps.vars.outputs.sha_short }}|g" index.html
+          echo "Replaced placeholder in index.html"
+          cat index.html # 確認のために置換後の内容をログに出力 (任意)
+
+      - name: Deploy to GitHub Pages 🚀
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./ # プロジェクトのルートを公開ディレクトリとする (適宜変更してください)
+          # publish_branch: gh-pages # 公開ブランチを指定する場合
+          # cname: your-custom-domain.com # カスタムドメインを使用する場合
