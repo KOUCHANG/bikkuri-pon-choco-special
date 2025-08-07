@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ビックリポンチョコ - シール出現率</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="rarity.css">
+</head>
+<body>
+    <div class="container">
+        <h1>シールの出現率一覧</h1>
+        <p><a href="index.html" class="back-link">&laquo; ビックリポンチョコに戻る</a></p>
+        <div id="rarity-table-container">
+            <!-- ここにJavaScriptでテーブルが生成されます -->
+        </div>
+    </div>
+    <script src="image-data.js"></script>
+    <script>
+        // 🖼️ 画像データは image-data.js から allImagesData を参照
+        const imagesData = allImagesData;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const rarityTableContainer = document.getElementById('rarity-table-container');
+            if (!rarityTableContainer) return;
+
+            const sortedImagesData = [...imagesData].sort((a, b) => {
+                const weightA = a.weight || 0;
+                const weightB = b.weight || 0;
+                if (weightB !== weightA) {
+                    return weightB - weightA;
+                }
+                return 0;
+            });
+
+            // 順位を計算してデータに追加
+            let rank = 0;
+            let lastWeight = Infinity; // 前のアイテムのweightを保持 (最初は最大値より大きい値)
+            const rankedImagesData = sortedImagesData.map((image, index) => {
+                const currentWeight = image.weight || 0;
+                if (currentWeight < lastWeight) {
+                    rank = index + 1; // weightが変わったら、現在のインデックス+1を順位とする
+                }
+                // weightが同じ場合は、前のアイテムと同じrankが使われる
+                lastWeight = currentWeight;
+                return { ...image, displayRank: rank };
+            });
+
+            const totalWeight = rankedImagesData.reduce((sum, img) => sum + (img.weight || 0), 0);
+
+            if (totalWeight <= 0) {
+                rarityTableContainer.innerHTML = '<p>出現率を計算できませんでした。</p>';
+                return;
+            }
+
+            const table = document.createElement('table');
+            table.className = 'rarity-table';
+
+            // テーブルヘッダーを作成
+            const thead = document.createElement('thead');
+            const headerRow = document.createElement('tr');
+            const thRank = document.createElement('th'); // 順位ヘッダー
+            thRank.textContent = '順位';
+            const thDescription = document.createElement('th');
+            thDescription.textContent = '説明';
+            const thPercentage = document.createElement('th');
+            thPercentage.textContent = '出現率';
+            headerRow.appendChild(thRank); // 順位ヘッダーを追加
+            headerRow.appendChild(thDescription);
+            headerRow.appendChild(thPercentage);
+            thead.appendChild(headerRow);
+            table.appendChild(thead);
+
+            // テーブルボディを作成
+            const tbody = document.createElement('tbody');
+            rankedImagesData.forEach(image => { // 順位情報が含まれたデータを使用
+                const percentage = ((image.weight || 0) / totalWeight) * 100;
+                const row = document.createElement('tr');
+
+                const tdRank = document.createElement('td'); // 順位セル
+                tdRank.textContent = image.displayRank;
+                tdRank.className = 'rarity-rank-cell';
+
+                const tdDescription = document.createElement('td');
+                tdDescription.textContent = image.description;
+                tdDescription.className = 'rarity-description-cell';
+
+                const tdPercentage = document.createElement('td');
+                tdPercentage.textContent = `${percentage.toFixed(2)}%`;
+                tdPercentage.className = 'rarity-percentage-cell';
+
+                row.appendChild(tdRank); // 順位セルを追加
+                row.appendChild(tdDescription);
+                row.appendChild(tdPercentage);
+                tbody.appendChild(row);
+            });
+            table.appendChild(tbody);
+
+            rarityTableContainer.appendChild(table);
+        });
+    </script>
+</body>
+</html>

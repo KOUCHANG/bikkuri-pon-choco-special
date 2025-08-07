@@ -1,0 +1,103 @@
+body {
+    background-color: #f8f9fa;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    color: #333;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    height: auto;
+    overflow: auto;
+}
+
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+}
+
+h1 {
+    color: #343a40;
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 2em;
+}
+
+.back-link {
+    display: inline-block;
+    margin-bottom: 20px;
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 500;
+}
+.back-link:hover {
+    text-decoration: underline;
+}
+
+.rarity-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.rarity-table th,
+.rarity-table td {
+    border: 1px solid #dee2e6;
+    padding: 10px 12px;
+}
+
+.rarity-table th {
+    background-color: #e9ecef;
+    font-weight: bold;
+    color: #495057;
+    text-align: center;
+}
+
+.rarity-table tbody tr:nth-child(odd) {
+    background-color: #f8f9fa;
+}
+
+.rarity-table tbody tr:hover {
+    background-color: #e2e6ea;
+}
+
+.rarity-rank-cell { /* 順位セルのスタイル */
+    text-align: center; /* 順位を中央寄せに */
+    font-weight: 500;
+    min-width: 50px; /* 順位列の最小幅 */
+}
+
+.rarity-description-cell {
+    text-align: left;
+}
+
+.rarity-percentage-cell {
+    text-align: right;
+    font-weight: 500;
+    color: #28a745;
+    min-width: 80px;
+}
+
+@media (max-width: 600px) {
+    .container {
+        margin: 10px;
+        padding: 15px;
+    }
+    h1 {
+        font-size: 1.6em;
+    }
+    .rarity-table th,
+    .rarity-table td {
+        padding: 8px 10px;
+        font-size: 0.9em;
+    }
+    .rarity-rank-cell {
+        min-width: 40px;
+    }
+    .rarity-percentage-cell {
+        min-width: 70px;
+    }
+}
