@@ -8,7 +8,7 @@ window.onload = function() {
     const images = allImagesData; // ← 変更
 
     // ✨ パッケージ画像のパスを指定
-    const packageImage = 'images/package.png';
+    const packageImage = 'images/top_special.png';
 
     // --- 設定項目 ---
     const shuffleDuration = 3000; // シャッフルアニメーションの時間 (3秒)
